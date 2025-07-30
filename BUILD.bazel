@@ -1,0 +1,47 @@
+cc_library(
+    name = "bsp",
+    srcs = [
+        "Drivers/BSP/STM32F7xx_Nucleo_144/stm32f7xx_nucleo_144.c",
+    ],
+    hdrs = [
+        "Drivers/BSP/STM32F7xx_Nucleo_144/stm32f7xx_nucleo_144.h",
+    ],
+    includes = [
+        "Drivers/BSP/STM32F7xx_Nucleo_144/",
+    ],
+)
+
+cc_library(
+    name = "cmsis",
+    hdrs = glob([
+        "Drivers/CMSIS/Include/*.h",
+        "Drivers/CMSIS/Device/ST/STM32F7xx/Include/*.h",
+    ]),
+    includes = [
+        "Drivers/CMSIS/Include",
+        "Drivers/CMSIS/Device/ST/STM32F7xx/Include",
+    ],
+)
+
+cc_library(
+    name = "hal_driver_core",
+    srcs = glob(["Drivers/STM32F7xx_HAL_Driver/Src/*.c"]),
+    hdrs = glob(["Drivers/STM32F7xx_HAL_Driver/Inc/*.h"]),
+    includes = ["Drivers/STM32F7xx_HAL_Driver/Inc"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "hal_conf",
+    hdrs = ["stm32f7xx_hal_conf.h"],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "stm32_hal_sdk",
+    deps = [
+        ":cmsis",
+        ":hal_driver_core",
+    ],
+    visibility = ["//visibility:public"],
+)
